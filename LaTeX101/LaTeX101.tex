@@ -1,0 +1,372 @@
+%Ici un commentaire. Définition de la classe de document
+\documentclass[12pt,a4paper]{book} % ou article, memoir, report, etc.
+
+%Le package Babel permet de gérer différentes normes linguistiques et typographiques
+\usepackage[english,italian,french]{babel}
+
+%usepackage permet d'utiliser un module complémentaire.
+%Nouvelle syntaxe ici: une commande avec une option entre []
+\usepackage[utf8]{inputenc}
+%Gérer l'encodage des caractères en sortie
+\usepackage[T1]{fontenc}
+
+%Changer la fonte de caractère
+\usepackage{lmodern}
+%\usepackage{charter}
+%Pour les maniaques du Times
+%\usepackage{txfonts}
+%Palatino
+%\usepackage{mathpazo}
+
+%Métadonnées du document
+%Auteur
+\author{J.B. Camps}
+\title{Tutoriel \LaTeX{}}
+%La commande date est optionnelle
+%\date{2 janvier 1950}
+\date{Version du \today}
+
+
+%Écrire les mots inconnus du dictionnaire pour la césure/l'hyphénation
+\hyphenation{chi-va-liers ka-val}
+
+% Marges, retraits et espacement
+\usepackage[margin=2.5cm]{geometry}
+%espacement des lignes
+\usepackage{setspace}
+\onehalfspacing
+\setlength\parindent{1cm}
+
+%J'appelle un module complémentaire
+\usepackage{lettrine}
+
+%J'appelle un package pour inclure des images
+\usepackage[pdftex]{graphicx}
+
+%Pour enlever la numérotation des figures
+\usepackage{caption}
+
+% Pour le mode paysage, je dois utiliser deux packages
+\usepackage{lscape} % pour le mode paysage
+\usepackage{pdflscape} % pour l'indiquer dans les métadonnées du pdf
+
+% Modules complémentaires pour le dessin:
+\usepackage{tikz} %Module pour le dessin
+\usepackage{tikz-qtree} %Pour les arbres, stemmata, généalogies, etc.
+
+%Pour créer un index
+\usepackage{makeidx}
+\makeindex %Pour activer la création de l'index
+
+% Appeller le package pour les bibliographies
+\usepackage[babel]{csquotes} %pour les guillemets
+\usepackage[backend=biber, sorting=nyt, style=enc]{biblatex}
+\addbibresource{demo.bib}
+
+%Début du corps du document, défini par l'environnement 'document'
+\begin{document}
+
+\frontmatter
+% Afficher le titre
+
+%\maketitle
+
+%Ma page de titre personnalisée.
+\begin{titlepage}
+
+\begin{center}
+\begin{large}
+Mon titre principal
+\end{large}
+\end{center}
+
+\bigskip
+\bigskip
+
+\begin{Huge}
+Mon titre encore plus principal
+\end{Huge}
+
+
+\end{titlepage}
+
+%Si je veux indexer un ensemble de pages, j'ouvre ici
+
+
+\chapter*{Remerciements}
+
+\lettrine{M}{es remerciements} vont tout d'abord à mon chat\dots
+
+%Début du corps du document, fin des parties liminaires (fin du frontmatter)
+\mainmatter
+
+\index{latex@LaTeX|(}
+\part{Mon titre de première partie}
+
+%Pour ne pas numéroter, j'ajoute une étoile après la commande \chapter*{}
+\chapter{Mise en place de \LaTeX{}}
+
+\section{Mon titre de premier niveau}
+
+\subsection{Mon titre de sous-section}
+
+\subsubsection{Mon sous-sous-titre}
+
+Le début du texte de mon document.
+
+La commande\index{commande} \emph{met du texte en \emph{valeur}}.
+
+La commande \textit{textit} met du texte en italiques.
+
+La commande \textbf{textbf} met du texte en gras.
+
+Je peux aussi employer des \textsc{petites capitales}.
+
+Je peux aussi utiliser une \texttt{fonte à chasse fixe}.
+
+\section{Enrichir son premier document}
+
+\subsection{Un premier environnement}
+
+Suit une citation de plus de quatre lignes:
+
+\begin{quotation}
+Ici se trouve le texte de notre longue, longue, citation, que l'on sépare du corps du texte. Ici se trouve le texte de notre longue, longue, citation, que l'on sépare du corps du texte.
+\end{quotation}
+
+\subsection{Listes et énumérations}
+% itemize sert à créer des listes et gère l'imbrication.
+\begin{itemize}
+\item Mon premier item
+\item Mon deuxième item
+\item Mon troisième item
+	\begin{itemize}
+	\item mon premier sous-item
+	\item mon second sous-item
+	\end{itemize}
+\end{itemize}
+
+Une énumération:
+
+\begin{enumerate}
+\item Mon premier point;
+\item Mon second point
+	\begin{enumerate}
+	\item mon premier sous-point
+		\begin{enumerate}
+		\item mon sous-sous point
+		\end{enumerate}
+	\end{enumerate}
+\end{enumerate}
+
+\subsection{Paragraphes et espacement}
+
+Pour créer un paragraphe, il suffit de sauter une ligne.
+
+
+Mon second paragraphe.\index{Mise en forme}
+
+Les
+retours
+à
+la
+ligne %Mais qu'est-ce qu'une ligne exactement?
+ne sont pas gênants.
+L'espacement     non			 plus.
+
+\subsection{Commentaires et caractères réservés}
+\index{caractères réservés}
+Pour afficher \&, ou \% ou \$, il faut les échapper avec \textbackslash{}.
+
+Pour afficher du code, on peut utiliser l'environnement verbatim. La commande \verb=\verb= permet d'afficher du code. Les modules complémentaires \emph{listings} et \emph{minted} permettent d'afficher du code avec coloration syntaxique.\index{coloration syntaxique}
+
+%N.B.: Les retours à la ligne et espaces sont interprétés littéralement.
+\begin{verbatim}
+Ici, je peux insérer du code
+\documentclass{}
+\end{verbatim}
+
+\section{Un premier véritable document \LaTeX{}}
+
+\subsection{Quelques aspects de mise en page générale}
+
+Nous avons vu la classe article, mais il en existe beaucoup d'autres.
+
+\part{Mon titre de partie}
+
+\chapter[Mémoires et travaux académiques]{La mise en forme de mémoires, thèses et travaux académiques}
+
+\section{Règles générales: du bon usage de la typographie}
+
+\subsection{Les numéros de siècle, rois, etc.}
+
+François I\ier{}, Elizabeth I\iere{}, XII\ieme{} siècle
+
+\subsection{Guillemets}
+
+De Gaulle a dit:
+\og Churchill a dit ``Sport, Never sport'' \fg{} 
+
+\subsection{Espaces insécables}
+
+La~tilde pour l'espace insécable.
+
+Espace\,fine insécable. Fr.\,854.
+
+\subsection{Accentuation}
+Soit je les tape directement, É, È, À, Ô, etc.
+
+Pour un accent aigu, \'E, grave, \`A.
+
+\subsection{Notes}
+
+J'ajoute une note de bas de page\footnote{Le texte de la note.}.
+
+\reversemarginpar %Permet de forcer le changement de côté de la note de marge.
+J'ajoute des notes de marge.\marginpar{Note de marge}
+
+\subsection{Quelques autres commandes de mise en page française}
+
+\No 5. \Nos 5, 6, 7; \no 1, \nos 2, 3, 4.
+
+\primo, \secundo, \tertio, \quarto, \FrenchEnumerate{6}
+
+Points de suspension\dots
+
+\subsection{La césure des mots}
+
+Proposer une césure lo\-cale.
+
+
+\subsection{Le multilinguisme}
+
+À partir d'ici: mon texte est en anglais.
+%\selectlanguage{english}
+%See: everything now is in English.
+
+\begin{otherlanguage}{english}
+See: this paragraph now is in English.
+\end{otherlanguage}
+
+Churchill a dit:  \foreignlanguage{english}{\og Sport, Never Sport\fg{}}.
+
+\section{La classe book}
+
+\subsection{Niveaux de titre supplémentaires}
+
+Deux nouveaux niveaux de titre: le niveau \verb=\part{}=
+
+%Entre crochets, i.e. comme option, j'ajoute un titre court, pour les entêtes (titre courant)
+\subsection[mon titre court]{Mon titre de sous-section très très long, qui occupe beaucoup de place}
+
+\subsection{Structuration de la classe book}
+
+frontmatter: parties liminaires
+
+mainmatter: corps du document (tei:body)
+
+appendix: les annexes
+
+backmatter (parties finales)
+
+
+\section{Floats et images}
+
+%J'ajoute une image
+
+\includegraphics[width=3cm]{knuth.jpg}
+
+Nous avons deux environnements pour les flottants: figure et table.
+
+Notre image un peu mieux placée:
+%t pour top, b pour bottom, p pour page séparée, h pour here
+\begin{figure}[!b]
+%\centering
+\begin{center}
+\includegraphics[width=3cm]{knuth.jpg}
+\end{center}
+\caption{Knuth, mon héros!}
+\end{figure}
+
+\subsection{Un tableau}
+
+\begin{table}[!h]
+\centering
+\begin{tabular}{c|c|c}
+\hline
+A & B & C \\ \hline \hline %pour tracer une ligne horizontale
+Val1 & Val 2 & Val3 \\
+ValA & ValB & ValC\\
+&&Val4 \\ \hline
+\end{tabular}
+\caption{Mon tableau}
+\end{table}
+
+Pour créer un tableau sur plusieurs pages, on peut utiliser le package \textit{longtable}, qui crée un environnement \verb=longtable=.
+
+
+%Je passe en mode paysage
+\begin{landscape}
+Ici, je suis en mode paysage, youpi!
+\end{landscape}
+
+\subsection{Dessin sous \LaTeX{}}
+
+En utilisant tikz.
+
+\begin{figure}
+\begin{tikzpicture}
+\Tree[.y [.{An} [.K ] [.N [.n ] ] [.G ] ] [.b ] ]
+\end{tikzpicture}
+\caption{Mon stemma}
+\label{figure:stemma}
+\end{figure}
+
+\chapter{Renvois, références, index et bibliographie}
+
+\section{Renvois}
+
+Je crée des ancres avec la commande \verb=\label{}=, et j'y fais référence avec \verb=\ref{}= et \verb=\pageref{}=.
+
+Voir la figure \ref{figure:stemma}, à la p.\,\pageref{figure:stemma}.
+
+\section{Index}
+Cette fameuse école parisienne\index{ecole des chartes@\textsc{École des chartes}!mention géographique} qui est la nôtre.
+
+%Si je veux indexer un ensemble de pages, je ferme ici
+\index{latex@LaTeX|)}
+
+%Je crée un renvoi (N.B.: comme le renvoi ne se fait pas à une page, je peux tous les grouper au même endroit
+\index{chartes@Chartes, école des|see{École des chartes}}
+
+\section{La bibliographie}
+
+Dans un article fort intéressant\footcite[Le voici:][p.\,42]{ailes_anglo-norman_2008}.
+
+Dans un autre travail du même auteur\footcite{ailes_fierabras_2002}.
+
+Dans ce même autre travail\footcite{ailes_fierabras_2002}.
+
+
+\printbibliography
+
+%Le corps du document est terminé, passons maintenant aux annexes
+\appendix
+
+\chapter{Ma première annexe}
+
+%Fin des annexes, début des parties finales (index, tables, etc.)
+\backmatter
+%Cette commande sert à afficher l'index, là où elle se trouve.
+\printindex
+
+%J'insère la liste des figures
+\listoffigures
+%J'insère la liste des tables
+\listoftables
+
+
+\tableofcontents
+
+
+\end{document}

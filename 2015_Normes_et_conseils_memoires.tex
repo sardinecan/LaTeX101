@@ -1,0 +1,226 @@
+\documentclass[a4paper,12pt]{book}
+
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{lmodern}
+\usepackage{hyperref}
+
+%Module d'usage facultatif permettant d'intégrer les tables, index, bibliographie, automatiquement à la table des matières
+\usepackage{tocbibind}
+%\usepackage{lscape}
+
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{setspace}
+\setlength{\parindent}{1cm}
+\onehalfspacing
+
+%%%Pour les tableaux
+%\usepackage{multirow}
+
+
+%%% Les index
+%\usepackage{makeidx}
+%\usepackage{multind}
+%\usepackage{index}
+%\makeindex
+%\makeindex{edition}
+%\makeindex{texte}
+%\newindex{etude}{adx}{and}{Index de l'étude}
+%\newindex{edition}{bdx}{bnd}{Index de l'édition}
+
+
+
+%%%Édition critique
+%\usepackage{eledmac}
+%\usepackage{eledpar}
+
+%\footparagraph{A}
+
+%\renewcommand{\Rlineflag}{D}
+
+\hyphenation{}
+
+
+\usepackage[babel]{csquotes}
+
+\usepackage[backend=biber, sorting=nyt, style=enc]{biblatex}
+%\addbibresource{Biblio/demo.bib}
+%\nocite{lachin_i_2008}
+
+
+
+\usepackage{enumerate,lettrine}
+
+\title{Normes typographiques pour les mémoires}
+\author{Jean-Baptiste Camps}
+
+
+\begin{document}
+
+
+%\begin{abstract}
+
+\frontmatter
+
+\begin{titlepage}
+\begin{center}
+
+\bigskip
+
+\begin{large}
+\'ECOLE NATIONALE DES CHARTES
+\end{large}
+\begin{center}\rule{2cm}{0.02cm}\end{center}
+
+\bigskip
+\bigskip
+\bigskip
+\begin{Large}
+\textbf{Prénom Nom}\\
+\end{Large}
+\begin{normalsize} \textit{licencié ès lettres}\\
+ (et les autres titres éventuels:)\\
+\textit{Maître ès lettres}\\
+\textit{Diplômé de master}\\
+etc.
+\end{normalsize}
+
+\bigskip
+\bigskip
+\bigskip
+
+\begin{Huge}
+\textbf{TITRE DU MÉMOIRE}\\
+\end{Huge}
+\bigskip
+\bigskip
+\begin{LARGE}
+\textbf{SOUS-TITRE}\\
+\end{LARGE}
+
+\bigskip
+\bigskip
+\bigskip
+\begin{large}
+\end{large}
+\vfill
+
+\begin{large}
+Mémoire 
+pour le diplôme de master \\
+\og Technologies numériques appliquées à l'histoire \fg{} \\
+\bigskip
+2015
+\end{large}
+
+\end{center}
+\end{titlepage}
+
+\thispagestyle{empty}
+
+\cleardoublepage
+
+\section*{Résumé}
+\addcontentsline{toc}{chapter}{Résumé}
+
+ Résumé d'une trentaine de lignes à placer en tête du mémoire, accompagné d'une dizaine de mots-clés destinés à décrire le mémoire et des informations bibliographiques nécessaires pour le citer. Ce résumé et ces mots-clés sont destinés à compléter la notice bibliographique du mémoire dans la future bibliothèque numérique des mémoires.\\
+N.B.: ne pas dépasser une page pour le tout.
+
+\medskip
+
+\textbf{Mots-clés:} Liste d'une dizaine de mots-clés, séparés par des points-virgules.
+
+\textbf{Informations bibliographiques:} Prénom Nom, \textit{Titre du mémoire: sous-titre}, mémoire de master \og Technologies numériques appliquées à l'histoire \fg{}, dir. [noms des directeurs], École nationale des chartes, 2015.
+
+\clearpage
+\thispagestyle{empty}
+\cleardoublepage
+
+\mainmatter
+
+\part{Titre de la première partie du corps du document}
+
+\chapter{Normes et conseils pour les mémoires}
+%\markboth{\textsc{Normes et conseils pour les mémoires}}{}
+%Titres courants
+
+Pour tout ce qui est de l'ordre des règles typographiques, des normes bibliographiques et de la structure d'ensemble des mémoires, vous pouvez vous reporter aux livrets de conseil 3 à 5 des thèses d'archiviste paléographe\footnote{%
+\textit{3.\,La Thèse: règles générales}, en ligne: <\url{https://intranet.enc.sorbonne.fr/system/files/these_3_regles_presentation_+these.pdf}>.;
+\textit{4.\,Sources et bibliographie: conseils de présentation}, en ligne: < \url{https://intranet.enc.sorbonne.fr/system/files/these_4_presentation_sources_bibliographie.pdf}
+>;
+\textit{5.\,Majuscules, traits d'union, règles diverses}, en ligne: < \url{https://intranet.enc.sorbonne.fr/system/files/these_5_regles_majuscules_traits-union.pdf}
+>.
+}.
+Si la typographie vous intéresse, vous pouvez aussi consulter  l'excellent petit  précis :
+\textsc{Imprimerie nationale}, \textit{Lexique des règles typographiques en usage à l'Imprimerie nationale}, Paris, 2002. 
+Ce qui suit ne se substitue nullement à ces documents, mais en reprend des points essentiels et en précise d'autres propres aux mémoires de master.
+
+
+\section{Mise en page}
+Recto-verso (de préférence). -- Composition justifiée. -- Pagination simple (arabe) ou double (romaine, puis arabe) si nécessaire. -- Marges du haut, du bas, intérieure et extérieure: 2,5\,cm. -- Caractère Times 12 ou équivalent. -- Interligne 1,5.\,-- Alinéa de 1\,cm pour les paragraphes (sans espacement entre les paragraphes); titres courants par chapitre au moins; citations longues (plus de 4 lignes) détachées du corps du texte et indentées.
+
+\section{Structure du mémoire}
+
+Page de titre et parties liminaires, dont: résumé et mots-clés; éventuelle épigraphe; remerciements; introduction; bibliographie. -- Corps du document, subdivisé en parties et chapitres, et suivi d'une conclusion. -- Annexes (dont documentation technique, documents divers, code commenté, planches, etc.). -- Parties finales, dont: 
+éventuels index, glossaire,\dots{}  table des figures et illustrations, table des matières.
+
+
+\section{Bibliographie}
+Les normes de l'École doivent être appliquées. %Optez une bonne fois pour les r, courte %(auteur, \textit{titre}, lieu, date
+Pour les utilisateurs du module \textit{Zotero} pour LibreOffice ou Word, un fichier de style \textsc{csl} est disponible sur l'Intranet. Pour les utilisateurs de \textsc{Bib}\LaTeX{}, un style (\textsc{bbx} et \textsc{cbx}) est également à votre disposition.
+
+\section{Annexes au mémoire et livrables techniques}
+
+Les livrables techniques ont une très grande importance, tout autant que le mémoire qui les accompagne. Ils pourront comprendre, selon les cas, 
+ les spécifications fonctionnelles de l'application réalisée, sa documentation technique et utilisateur, la totalité des fichiers qui la constituent (dont les bases de données), les fichiers \textsc{xml} produits et leur schéma, le manuel d'encodage, les résultats d'enquête, le cahier des charges,\dots{} c'est-à-dire l'ensemble des fichiers produits et organisés selon une arborescence cohérente, avec à la racine un fichier \og Lisez-moi.txt\fg{} ou une page \textsc{html} de liens.
+
+La documentation technique devra  comprendre une présentation de l'ensemble des fichiers fournis, de l'application réalisée (ses différents composants, les librairies et scripts préexistants réutilisés, les nouveaux scripts et programmes écrits pour l'occasion, etc.). 
+Si le livrable constitue une application complète, la documentation devra aussi permettre son installation; 
+le rôle de chacun des fichiers de script ou programme devra être spécifié, les fichiers de paramétrage devront être présentés.
+Les fichiers de code devront être abondamment commentés pour faciliter leur compréhension.
+
+N.B.: attention à la compatibilité des programmes et fichiers livrés avec les différents systèmes d'exploitation (et les différents navigateurs).
+
+\section{Dépôt du mémoire}
+
+\subsection{Avant la soutenance}
+Le mémoire doit être rendu au plus tard à la date précisée dans la convention de stage (le 8 septembre), sous forme papier et électronique, en autant  d'exemplaires que de membres du jury (trois, sauf cas particuliers): un exemplaire devra être adressé au tuteur de stage, les autres seront déposés ou envoyés à l'École nationale des chartes.
+
+Pour le dépôt électronique, les formats de fichiers acceptés sont, pour les fichiers source, les formats OpenDocument (.odt) ou \LaTeX{} (.tex), obligatoirement accompagnés d'une \og publication \fg{} \textsc{pdf}, ainsi que de tous les livrables techniques et fichiers d'accompagnement nécessaires.
+
+\subsection{Après la soutenance}
+
+Dans la perspective d'une publication en ligne du mémoire sur une archive ouverte, à l'issue de la soutenance, le jury précisera si le mémoire peut-être publié en l'état, s'il doit faire l'objet de corrections ou s'il ne peut être publié. Il appartient alors à l'auteur du mémoire 
+de fournir la version corrigée, sous forme électronique (OpenDocument ou \LaTeX{} et \textsc{pdf}, accompagnés des livrables s'ils ont été modifiés) et de signer une autorisation de diffusion.
+
+\section{Quelques conseils généraux}
+Le mémoire est l'aboutissement de vos études de master --\,voire le premier pas vers une thèse de doctorat\,-- et il est également le travail dans lequel vous avez le plus d'autonomie et de liberté. 
+Il importe néanmoins de faire un point régulier sur l'état d'avancement de vos travaux (au moins une fois par mois). Dans le cadre de l'emploi du temps assez resserré du deuxième semestre de master 2, il est souhaitable
+de commencer à concevoir, organiser et rédiger son mémoire le plus tôt possible.
+Si les mémoires ne sont pas jugés sur la quantité de pages qu'ils contiennent, la moyenne constatée est aux environs de 140 pages (annexes comprises, dont en général 80 ou 90 pages de texte) et parfois plus (notamment pour les mémoires de recherche), pouvant aller jusqu'à 300 pages. Il s'agit là toutefois d'indications et non pas de règles absolues.
+Dans tous les cas, le mémoire doit permettre de bien cerner les rôles que vous avez joués et vos activités durant votre période de stage (ou expliciter votre démarche de recherche). 
+Il est aussi le lieu d'une synthèse et d'un bilan sur le travail effectué, tant ses résultats que ses limites (qu'il importe de ne pas dissimuler) et les autres méthodes qui auraient été possibles.
+Doivent y être présentés l'organisme d'accueil, les objectifs du stage et le projet dans lequel il s'inscrit. Dans la présentation du travail réalisé, on cherchera autant que possible à articuler enjeux scientifiques, mise en œuvre informatique et méthodologie retenue. 
+Les choix opérés doivent être explicités et remis en contexte. 
+Il importera enfin d'ouvrir sur les limites du travail effectué, les suites et accroissements futurs envisageables, l'utilisation prévue de ce travail par la structure d'accueil.
+
+Le mémoire doit être rédigé dans une langue claire et rigoureuse, évitant les anglicismes ou le jargon. Il s'adresse à un public relativement large et a vocation à pouvoir être diffusé en ligne. À ce titre, d'une part, la qualité de son contenu vous engage autant que l'École et, d'autre part,  
+le texte du mémoire doit être clair et compréhensible, tant que faire se peut, par des non spécialistes disposant d'une culture générale technique. 
+Les concepts, normes, outils,\dots{} mentionnés devront être définis et présentés.
+Tous les tableaux et illustrations devront être légendés (et repris dans la table des illustrations).
+
+\paragraph{Note finale:} La majeure partie de ces règles a pour but de favoriser la lisibilité et la clarté du texte, qu'il importe également de ne pas surcharger d'artifices typographiques (gras, tirets, emploi abusif des majuscules, etc.) qui en rompraient la lisibilité, pas plus que d'abréviations (en dehors des plus courantes) ou de jargon.
+
+\appendix
+\part*{Annexes}
+\chapter{Titre du premier chapitre d'annexes}
+
+\backmatter
+
+\listoffigures
+\tableofcontents
+
+\end{document}

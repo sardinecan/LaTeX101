@@ -1,0 +1,743 @@
+\documentclass[a4paper,twoside,french,12pt]{article}
+
+\usepackage[french]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{lmodern}
+\usepackage{lscape}%pour pouvoir mettre des bouts en mode paysage
+\usepackage{pdflscape}%Permet d'indiquer, dans les métadonnées du pdf que la page concernée est en mode paysage
+\usepackage{longtable}%pour faire des tableaux longs
+
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{setspace}
+\setlength{\parindent}{1.cm}
+\onehalfspacing
+%\frenchspacing%plus nécessaire à présent ?
+
+%%%Pour les tableaux
+%\usepackage{slashbox}
+%slashbox ne figure plus dans texlive à cette date (6 mars 2014), car les informations sur la licence sont inconnues
+%On le retire donc temporairement du document
+\usepackage{multirow}
+
+%%%Édition critique
+%\usepackage{ledmac}
+%Mise à jour?
+\usepackage{eledmac}
+\usepackage{eledpar}
+
+\usepackage[french]{varioref}
+
+%Pour faire des dessins
+\usepackage{tikz}
+%Pour faire des arbres
+\usepackage{tikz-qtree}
+
+\hyphenation{}
+
+
+\usepackage{enumerate,lettrine}
+
+\title{\LaTeX\ 102: un mémoire, une thèse, un ouvrage avec \LaTeX}
+\date{\today{} (1\iere{} version 31 mars 2011)}
+\author{Jean-Baptiste Camps}
+
+
+\begin{document}
+
+\maketitle
+
+
+
+
+
+\begin{abstract}
+Nous avançons à présent vers un type de document plus avancé, dont la structure se rapproche plus de celle d'un ouvrage, d'un mémoire ou d'une thèse, en mettant l'accent sur les principes essentiels de typographie générale et les questions de mise en page propre à l'École. Puis nous nous pencherons sur la classe \textit{book} et verrons sa structure et comment on peut l'utiliser pour mettre en forme un livre ou un travail universitaire. Nous verrons ensuite l'utilisation des \textit{floats} (images, tableaux).
+\end{abstract}
+
+
+NB: la commande \verb=\verb= permet d'insérer du code dans une phrase.
+\begin{verbatim}
+NB: la commande \verb=\verb= permet d'insérer du code dans une phrase.
+\end{verbatim}
+
+
+\section{\LaTeX{} pour la mise en page de travaux et mémoires}
+
+\subsection{Règles générales: du bon usage de la typographie}
+%\itshape
+Reprise, une par une, de règles typographiques, et de la façon de les appliquer avec \LaTeX{}.
+
+%Les bonnes pratiques typographiques :
+
+\subsubsection{\textbackslash{}ieme, \textbackslash{}ier, les numéros de siècle}
+
+\verb=I\ier{} I\iere{} II\ieme{}= donnent I\ier{} I\iere{} II\ieme
+
+\subsubsection{guillemets françaises, anglaises, etc.}
+\verb= <<~ ou \og et ~>> ou \fg=  donnent <<~ ou \og et ~>> ou \fg\\
+\verb= `` ''= donnent `` ''
+\subsubsection{espace insécable}
+\verb=~= pour l'espace insécable;\\
+\verb=\,= pour l'espace fine insécable.
+
+\subsubsection{accentuation des capitales}
+Avec UTF8, je les intègre directement: É È À.
+
+Sinon, pour le faire, j'ai des combinaisons en \LaTeX{}: \verb=\'= pour un accent aigu (\verb=\'E= donne \'E), \verb=\`A= pour un accent grave (\verb=\`A= donne À), etc.
+
+\subsubsection{Notes de bas de page et de marge}
+la commande \verb=\footnote{}= permet d'écrire une note de bas de page. Si on veut une note de marge, il faut écrire \verb=\marginpar=. Pour changer la note de marge de côté de la page, on peut utiliser \verb=\reversemarginpar=.
+
+
+\subsubsection{Quelques autres commandes de mise en page française}
+
+\verb=\No, \Nos, \no et \nos= donnent \No, \Nos, \no et \nos\\
+\verb=\primo, \secundo, \tertio, \quarto, et par la suite \FrenchEnumerate{6}= donnent \primo, \secundo, \tertio, \quarto, et par la suite \FrenchEnumerate{6}\\
+\verb=\dots= donne \dots
+
+
+\subsubsection{Les tirets}
+\upshape
+signe moins (quart cadratin), semi cadratin, et cadratin:
+Le cadratin (appelé en anglais \textit{em dash}) est une unité de mesure typographique qui correspond traditionnellement à la chasse de la lettre M majuscule. On distingue, en typographie française, trois types de tirets :\\
+le quart cadratin, - , qui est le tiret le plus courant (...), \verb= - = \\
+le semi cadratin, -- , qui sert à (...) \verb= -- = \\
+le cadratin, ---, qu'on utilise pour (..) et qui s'écrit\verb=---=\\
+ 
+\subsubsection{La césure des mots}
+
+Babel charge un dictionnaire qui fait la césure en français selon la règle. Mais certains termes ne sont pas reconnus (terme technique, ancien français, etc.).
+On intervient donc dans le préambule pour le paramétrage: \verb=\hyphenation{}=
+
+
+
+\subsubsection{Le multilinguisme}
+
+La commande \verb=\selectlanguage{}= 
+de Babel, permet de passer d'une langue à une autre. Il faut néanmoins les définir dans le préambule:\\
+\verb=\usepackage[english, italian, french]{babel}= ici anglais, italien et français.
+
+Pour changer de langue, on a la commande \verb=\selectlanguage{english}=.
+
+Si on veut changer de façon très localisée, il faut mieux utiliser:
+\begin{verbatim}
+\begin{otherlanguage}{english}
+\end{otherlanguage}
+\end{verbatim}
+Pour une citation vraiment très courte, et si on est un peu maniaque, on peut même utiliser:
+\begin{verbatim}
+\foreignlanguage{english}{Sport, Never sport}
+\end{verbatim}
+
+\subsubsection{Caractères phonétiques}
+\textit{À faire.}
+
+\subsubsection{Marges, retraits et espacements}
+Bien que \LaTeX{} propose une mise en page par défaut qui soit visuellement très agréable, on peut, pour faire plaisir aux auteurs de normes de mise en page des mémoires et thèses, mettre des marges de 2cm5 et un odieux interligne 1.5.
+\begin{verbatim}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\setlength\parindent{1cm}
+\end{verbatim}
+
+
+\subsection{La classe \textit{book}}
+
+N.B.: La classe \textit{memoir} est également intéressante (plus configurable, aussi un peu plus tordue, mais on la magnifique commande \verb=\medievalpage= pour avoir une page qui se targue de correspondre aux règles des scribes et premiers imprimeurs.
+
+\verb=\documentclass[a4paper,12pt,twoside]{book}=
+
+
+\subsubsection{Les différents niveaux de la classe book}
+
+
+\paragraph{Les niveaux de titre supplémentaires:}
+
+Deux niveaux standards supplémentaires, le niveau \verb=\part{}= et le niveau \verb=\chapter{}=
+
+Si on est bien en recto/verso, on voit que le titre courant montre le nom chapitre à gauche, et section à droite.
+Voir effet avec titre trop long. On peut redéfinir un titre trop long pour table des matières et titres courants de cette façon :
+\begin{verbatim}
+\section[titre court pour entêtes]%
+{titre très long et très ennuyeux, qui prend beaucoup de place au début du chapitre}
+\end{verbatim}
+
+\paragraph{La structuration de la classe book:}
+En fait, offre plus:\\
+\verb=\frontmatter= (au tout début, numérotation en romain, chapitres et titres non numérotés. La numérotation est en chiffres arabes minuscules, ce qui ne correspond pas aux règles fr., on verra à la prochaine séance comment le modifier)\\
+\verb=\mainmatter= (l'essentiel du texte, numérotation en arabe)\\
+\verb=\appendix= (pour les annexes, les chapitres ne sont plus désignés par des numéros mais par des lettres)\\
+\verb=\backmatter= (la toute fin du document, index, liste des figures, et table des matières. Pas d'effet visuel dans la classe standard, est une délimitation intellectuelle)\\
+
+
+
+\subsubsection{Les choses dans l'ordre}
+
+\paragraph{Le \textit{frontmatter}} [enchaîner sur la page de titre].
+
+\verb= \frontmatter=\\
+
+\paragraph{La page de titre:}
+
+La page de titre est contenue dans l'environnement :
+\begin{verbatim}
+\begin{titlepage}
+Ceci est la page de titre
+\end{titlepage}
+\end{verbatim}
+
+Cette page n'est pas numérotée, mais elle est pris en compte dans la numérotation (comme le veut l'usage français le plus courant).
+
+Il nous faut maintenant sauter une page, pour le verso de la page de titre, ce qui est fait grâce à la commande \verb= \cleardoublepage=.
+Ceci dit, si on regarde attentivement, on verra que la page suivante est numérotée, ce qui est disgracieux. Pour éviter ça, on va ajouter une commande qui demande un style de page vide: \verb= \thispagestyle{empty} =
+N.B.: la commande \verb= \thispagestyle= vaut seulement pour la page en cours. Si on veut changer un groupe de page, il est plus pratique d'utiliser \verb= \pagestyle =. Parmi les options pour ces deux commandes:
+
+\begin{itemize}
+\item \textit{plain} - Just a plain page number.
+\item \textit{empty} - Produces empty heads and feet - no page numbers.
+\item \textit{headings} - Puts running headings on each page. The document style specifies what goes in the headings.
+\item \textit{myheadings} - You specify what is to go in the heading with the \verb=\markboth= or the \verb=\markright=
+\end{itemize}
+
+
+Le contenu de la page de titre:
+\begin{verbatim}
+\begin{titlepage}
+\begin{center}\
+
+\bigskip
+
+\begin{large}
+\'ECOLE NATIONALE DES CHARTES
+\end{large}
+\begin{center}\rule{2cm}{0.02cm}\end{center}
+
+\bigskip
+\bigskip
+\bigskip
+\begin{Large}
+\textbf{Prénom Nom}\\
+\end{Large}
+\begin{normalsize} \textit{licencié ès lettres}\end{normalsize}
+
+\bigskip
+\bigskip
+\bigskip
+
+\begin{Huge}
+\textbf{TITRE DU MÉMOIRE}\\
+\end{Huge}
+\bigskip
+\bigskip
+\begin{LARGE}
+\textbf{SOUS-TITRE}\\
+\end{LARGE}
+
+\bigskip
+\bigskip
+\bigskip
+\begin{large}
+TOME PREMIER [II, III, etc.]
+\end{large}
+\vfill
+
+\begin{large}
+Mémoire\\
+pour le diplôme de master \og Technologies numériques appliquées à l'histoire \fg{} \\
+\bigskip
+2014
+\end{large}
+
+
+
+\end{center}
+\end{titlepage}
+\end{verbatim}
+
+
+On peut insérer là les remerciements, avec par exemple un chapitre.
+
+Si on veut utiliser une sympathique lettrine:
+\begin{verbatim}
+\usepackage{lettrine}
+\lettrine{M}{es remerciements} vont tout d'abord à mon chat etc.
+\end{verbatim}
+
+Ce qui donne:\\
+\lettrine{M}{es remerciements} vont tout d'abord à mon chat etc.
+
+Ce qu'on décide de placer dans le frontmatter peut varier. Dans les éditions de textes, c'est souvent toute l'introduction (qui peut aller en elle-même vers le volume entier).
+
+Dans les autres cas, plutôt remerciements, intro., bibliographie et sources, et, de manière générale, ce qui se place avant la première partie.
+
+On aurait ainsi ensuite
+
+\begin{verbatim}
+\mainmatter
+\part{La première partie}
+\chapter{Le premier chapitre}
+\end{verbatim}
+
+Une fois le corps du travail fini
+\begin{verbatim}
+\appendix
+\end{verbatim}
+Les chapitres d'annexes
+
+et pour finir,\verb=\backmatter= les listes de figure, de tables, les index et la table des matières
+Il y a une différence entre liste des figures et liste des tables qu'on va voir tout de suite, car on va maintenant se préoccuper des floats.
+
+\section{\textit{Floats} et mise en page avancée}
+
+\subsection{Les float (insérer images, graphiques et tableaux)}
+
+\subsubsection{Un ex. pour commencer: insérer une image}
+Il faut appeler le package graphicx dans le préambule... \\
+\verb=\usepackage[pdftex]{graphicx}=
+
+Pour insérer une image:
+\begin{verbatim}
+\includegraphics[width=3cm]{knuth.jpg}
+\end{verbatim} 
+
+\includegraphics[width=3cm]{knuth.jpg}
+
+\subsubsection{Un float, c'est quoi? Comment le placer?}
+Il existe deux types de float, les figures et les tables, mais qui employent la même syntaxe.\\
+\verb= \begin{figure} =\\
+
+Si leur syntaxe est identique, ce qui les différencie, c'est leur numérotation, leur reprise dans la \verb= \listoffigures = ou la \verb= \listoftables =.
+
+Qu'est-ce qu'un float, c'est un environnement flottant, que \LaTeX\ va placer du mieux qu'il peut dans la page. On peut toutefois influer sur ce placement :\\
+\verb= \begin{figure}[h] =
+
+h pour here\\
+t pour top\\
+b pour bottom\\
+p pour page séparée\\
+
+si on veut être particulièrement insistant sur l'emplacement, il faut rajouter un point d'exclamation:\\
+\verb= \begin{figure}[!h] =
+
+À l'intérieur de notre environnement, on place l'image.
+si on veut lui donner une légende, on utilise la commande \verb=\caption{}=
+
+\begin{figure}[!h]
+\includegraphics[width=3cm]{knuth.jpg}
+\caption{Notre figure un peu mieux placée}
+\end{figure}
+
+À placer dans les astuces: 
+\begin{quotation}
+Deux remarques : 1. la figure est numérotée, et apparaîtra sous ce numéro dans la table des figures.
+Si l'on veut éviter ça, il faut utiliser le package \verb=\usepackage{caption}= qui rend les légendes plus configurables.
+ De la même manière que l'on peut enlever ponctuellement le numéro des titres et les enlever de la table des matières en plaçant une étoile entre la fin de la commande et le début des accolades, on pourra alors également ajouter une étoile entre caption et la première accolade.
+NB: ajout manuel à la table des matières,
+\verb= \addcontentsline{toc}{chapter}{nom du chapitre} =
+\end{quotation} 
+ 
+Deuxième remarque : non centrée. si on veut la centrer, faut rajouter
+\begin{verbatim}
+\begin{center}
+
+\end{center}
+\end{verbatim}
+
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=3cm]{knuth.jpg}
+\caption{Notre figure encore mieux placée}
+\end{center}
+\end{figure}
+
+\begin{verbatim}
+\begin{figure}[!h]
+\begin{center}
+\includegraphics[width=3cm]{knuth.jpg}
+\caption*{Notre figure un peu mieux placée}
+\end{center}
+\end{figure}
+\end{verbatim}
+
+(\textit{Pour les sous-flottants, possibilité de définir deux colonnes, ou bien d'utiliser subfloat du package subfig}).
+
+\subsubsection{Insérer un tableau}
+
+Pour l'environnement table, la syntaxe est exactement la même.
+
+Voyons maintenant quoi mettre dans les environnements table, avec la syntaxe des tableaux.
+
+Le tableau se place dans un environnement tabular (qu'on va placer dans un environnement table).
+
+Pour définir la structure du tableau, LaTeX dispose d'un mini langage, qui se compose de lettres et de barres verticales :\\
+barres verticales pour définir les endroits où l'on veut des lignes verticales,\\
+et les lettres pour les cellules, en définissant l'alignement du texte à l'intérieur:
+\begin{itemize}
+\item c pour center
+\item l pour left
+\item r pour right
+\end{itemize}
+
+Pour les entrées du tableau, on a également un syntaxe particulière, avec \& comme séparateur de cellules et \verb=\\= pour le retour à la ligne.\\
+Pour tracer les lignes horizontales, on utilise \verb= \hline =.\\
+Deux \verb= \hline =. à la suite créent deux lignes horizontales avec un espace entre les deux.\\
+Pour tracer une ligne horizontale qui ne prenne pas toute la largeur, on utilise la commande \verb=\cline{1-2}= dans laquelle on spécifie la colonne de début et la colonne de fin.
+
+%%%Pour les tableaux
+%\usepackage{slashbox}
+%slashbox ne figure plus dans texlive à cette date (6 mars 2014), car les informations sur la licence sont inconnues
+%On le retire donc temporairement du document
+%Pour diviser une cellule en deux par une diagonale, il faut utiliser le package \verb=\usepackage{slashbox}= on utilise \verb=\backslashbox{}{}= (et slashbox pour l'autre sens).
+
+Si on veut ponctuellement changer le nombre de colonne, on utilise la commande\\ \verb=\multicolumn{nombre col}{c ou l ou r}{texte}=.\\
+Si on veut ponctuellement changer le nombre de lignes, on utilise la commande\\ \verb=\multirow{n lignes}{largeur, qu'on peut remplacer par *}{texte}=.\\ (là encore, on à besoin d'un package, à savoir multirow).
+
+\textit{Couleur dans les tableaux: en a-t-on vraiment besoin ? (si oui, package xcolor).}
+
+%\begin{table}
+\begin{tabular}{|c|c|c|}
+\hline
+%\backslashbox{toto}{titi}
+titi&tata& %\slashbox{tutu}{tètè}
+tutu\\
+\hline \hline
+bobo&baba&bubu\\
+\cline{1-2}
+bobo&baba&bubu\\
+\hline
+\multicolumn{3}{|c|}{Une seule colonne}\\
+\hline
+bobo&baba& \multirow{2}*{Une seule ligne}\\
+\cline{1-2}
+bobo&baba&\\
+\hline
+\end{tabular}
+%\end{table}
+\bigskip
+
+
+
+\begin{tabular}{ccc}
+toto&tata&tutu\\
+bobo&baba&bubu\\
+\end{tabular}
+\bigskip
+
+\begin{tabular}{l|l|l}
+toto&tata&tutu\\
+bobo&baba&bubu\\
+\end{tabular}
+\bigskip
+
+\begin{tabular}{|r|r|r|}
+bobo&baba&bubu\\
+toto&tata&tutu\\
+\end{tabular}
+\bigskip
+
+\begin{tabular}{|r|r|r|}
+\hline
+bobo&baba&bubu\\
+\hline
+toto&tata&tutu\\
+\hline
+\end{tabular}
+\bigskip
+
+\begin{figure}[h]
+\begin{tabular}{|r|r|r|}
+\hline
+bobo&baba&bubu\\
+\hline
+toto&tata&tutu\\
+\hline
+\end{tabular}
+\caption{titre de mon tableau}
+\end{figure}
+\bigskip
+
+\subsubsection{Grands tableaux et mode paysage}
+Point important: \LaTeX\ ne gère pas par défaut les grands tableaux qui prennent plusieurs pages. Pour ce faire, il faut utiliser le package \textit{longtable}, qui créé un environnement \verb={longtable}= qui s'utilise de la même façon qu'un tableau normal (ouuuuf !).
+
+Pour les grands tableaux notamment, comme pour d'autres choses, il peut être intéressant de passer en mode paysage. Pour ce faire, on utilise (encore !) un package, à savoir \{lscape\}, et l'environnement qu'il définit \{landscape\}. Il est également souhaitable d'ajouter le package \textit{pdflscape}, qui permet d'indiquer, dans les métadonnées du pdf que la page concernée est en mode paysage.
+
+
+Ce qui donne:
+
+
+\begin{landscape}
+
+%\begin{table} % Apparemment pas indispensable ici.=> Source de bugs. Le tableau serait limité à une table... Mais on peut utiliser une «caption»
+\begin{longtable}{|c|c|c|c|c|c|}
+\caption{Un long tableau}
+\\ \hline
+ & \textbf{Latin} & \textbf{Paris} & \textbf{Bruxelles} & \textbf{London} & \textbf{Torino} \\
+\hline
+\multirow{12}{*}{Prologue} &  Homerus  & Omere & Omere & Omere &  \\ \cline{2-6} & Ouidius Sulmonensis & Ovidés le Soulmonnoys & Ovidés le Soulmonnoys & Ovide le Soulomonois & \\ \cline{2-6} & Virgilius & Virgille & Virgile & Virgile &\\ \cline{2-6} & Eneydos & Eneÿdos & Eneÿdos &Eneÿdos & \\ \cline{2-6} & {\tiny iudicem Guidonem de Columpna de Messana} & {\tiny ange Guy de la Columpne Messane} & {\tiny juge Guy de la Columpne Messane} & {\tiny juge de la Coulompne Messane} &\\ \cline{2-6} & Dytem Grecum & ung aucteur grec & Dités & ung aucteur grec & \\  \cline{2-6} & Frgium Daretem & Daires le frigien & Darés le frigien & Daire le frigien & \\ \cline{2-6} & Athenis & Athenes & Athenes & Athenes &\\ \cline{2-6} & Cornelius & Cornille & Cornille & Cornile &\\ \cline{2-6} & Salustii & Saluste & Salusce & Saluce & \\ \cline{2-6} & Magna Grecia & grant Grece & grant Grece & grant Grece & \\ \cline{2-6} & Romaniam & Rommanie & Roumanie & Romanie & \\
+\hline
+\end{longtable}
+%\end{table}
+
+Attention à \textit{ne pas} encapsuler \textit{longtable} dans un environnement \textit{table}. Pour que la \textit{longtable} apparaisse tout de même dans la \textit{list of table} et puisse avoir une légende, on pourra utiliser la commande \verb=\caption{}=.
+
+%
+
+
+\end{landscape}
+
+
+\subsubsection{Dessin sous \LaTeX}
+
+Plus complexe. Une solution consiste à utiliser le package \verb=tikz=  Un exemple tiré d'une thèse d'École:
+
+\begin{tikzpicture}
+	\tikzstyle{lien}=[-,>=stealth,rounded corners=5pt,thick]
+	\tikzset{individu/.style={draw,thick,fill=#1!25},
+	         individu/.default={white}}
+	\node[individu] (E) at (0,0) {Angélique \textsc{Bouer}	\dag 1682};
+	\node[individu] (P) at (-4,2) {Louis \textsc{Bouer}, seigneur de Petit Musse \dag 1653};
+	\node[individu] (M) at (4,2) {\textit{N'a pu être identifiée}};
+	\draw[lien] (E) |- (-2,1) -| (P);
+	\draw[lien] (E) |- (2,1) -| (M);
+\end{tikzpicture}
+
+\begin{verbatim}
+\begin{tikzpicture}
+	\tikzstyle{lien}=[-,>=stealth,rounded corners=5pt,thick]
+	\tikzset{individu/.style={draw,thick,fill=#1!25},
+	         individu/.default={white}}
+	\node[individu] (E) at (0,0) {Angélique \textsc{Bouer}	\dag 1682};
+	\node[individu] (P) at (-4,2) {Louis \textsc{Bouer}, seigneur de Petit Musse \dag 1653};
+	\node[individu] (M) at (4,2) {\textit{N'a pu être identifiée}};
+	\draw[lien] (E) |- (-2,1) -| (P);
+	\draw[lien] (E) |- (2,1) -| (M);
+\end{tikzpicture}
+\end{verbatim}
+ 
+À noter qu'il existe un module de tikz spécialement pour les arbres et les stemmata:
+
+\verb=\usepackage{tikz-qtree}%Pour faire des arbres=
+
+Puis: 
+
+\begin{tikzpicture}[level distance=35pt,sibling distance=6pt]
+\tikzset{edge from parent/.style=
+  {draw,
+   edge from parent path={(\tikzparentnode.south) 
+                          -- +(0,-8pt) 
+                          -| (\tikzchildnode)}}}
+\Tree [.y 
+	[.$\alpha$
+		[.a [.I ] [.D ] [.J ] [.K ] [.b [.O ] [.B ] ] ]
+	 ]
+	[.$\beta$ 
+		[.d 
+			[.C ]
+			[.x [.A ] [.H ] ]
+		]	
+	]
+]
+
+\end{tikzpicture}
+
+\begin{verbatim}
+\begin{tikzpicture}[level distance=35pt,sibling distance=6pt]
+\tikzset{edge from parent/.style=
+  {draw,
+   edge from parent path={(\tikzparentnode.south) 
+                          -- +(0,-8pt) 
+                          -| (\tikzchildnode)}}}
+\Tree [.y 
+	[.$\alpha$
+		[.a [.I ] [.D ] [.J ] [.K ] [.b [.O ] [.B ] ] ]
+	 ]
+	[.$\beta$ 
+		[.d 
+			[.C ]
+			[.x [.A ] [.H ] ]
+		]	
+	]
+]
+
+\end{tikzpicture}
+\end{verbatim}
+
+%%%\textbf{En guise de transition : les packages, qu'est-ce qu'un package, comment ça fonctionne, etc. Présentation du CTAN. Le package café.}
+
+%%%%%
+%Tout ce qui suit a en réalité été traité dans la leçon suivante. Je le retire donc celle-ci.
+%%%%%
+%%
+%%\section{Renvois et index}
+%%
+%%\subsection{Les renvois}
+%%
+%%\subsubsection{Méthode standard}
+%%\begin{verbatim}
+%%\label{}
+%%\ref{}
+%%\pageref{}
+%%\end{verbatim}
+%%
+%%%\subsubsection{Package varioref}%Supprimé : non standard et source de problèmes
+%%
+%%%\verb=\usepackage[french]{varioref}=
+%%
+%%%\verb=\vref{} et \vpageref{}=
+%%
+%%
+%%\subsection{Un index unique avec Makeindex}
+%%
+%%\subsubsection{Principe de base}
+%%
+%%1. Indiquer à \LaTeX{} qu'on veut faire un index~: 
+%%\begin{verbatim}
+%%\usepackage{makeidx}
+%%\makeindex
+%%\end{verbatim}
+%%
+%%2. indexer un mot~:\\
+%%Il faut ajouter, à la suite du mot, la commande \verb=\index{}=.\\
+%%Le mot sera placé automatiquement dans l'index. L'avantage de cette méthode, c'est qu'on peut inclure dans la même entrée, par ex. Louis XIV, les renvois à Il, le roi, Louis le Grand, etc.
+%%
+%%3. Compiler~: 
+%%\begin{itemize}
+%%\item configurer la compilation~;
+%%\item compiler pdflatex + makeindex + pdflatex.
+%%\end{itemize}
+%%
+%%Premier problème~: \\
+%%L'ordre alphabétique~: essayer avec EAD, école, Éducation.\\
+%%Le merveilleux ordre alphabétique ASCII, qui distingue majuscules et minuscules, lettres accentuées ou non, etc.
+%%
+%%
+%%pour corriger ça, on va utiliser une commande permettant de définir à la fois l'endroit où l'entrée doit apparaître dans l'ordre alphabétique~:\\
+%%\verb=\index{ecole@École}=\\
+%%
+%%Quand on fait son index avec \LaTeX\ il faut faire particulièrement attention à bien écrire l'entrée toujours de la même façon, sinon, il crée deux entrées différentes.
+%%
+%%\subsubsection{Un index un peu plus évolué}
+%%\paragraph{Les renvois intérieurs~:}
+%%On peut vouloir définir des renvois, des \og voir\fg, etc.
+%%
+%%Pour faire ceci, on emploie la syntaxe suivante~:\\
+%%\verb= \index{chartes@Chartes, école des|see{École}}=\\
+%%Petite astuce, comme ces entrées renvoient à une autre sans citer de numéro de page, on peut écrire l'ensemble des renvois au même endroit, par exemple, juste avant le \verb=\printindex=.
+%%
+%%
+%%\paragraph{Une sous entrée~:} On peut aussi vouloir faire une sous-entrée. Pour ce faire, on emploie le point d'exclamation~: \\
+%%\verb= \index{ecole@École!des chartes}=\\
+%%
+%%À noter que ces différentes syntaxes sont combinatoires, on peut faire un renvoi dans une sous-entrée, par exemple.
+%%
+%%On peut parfois aussi vouloir faire référence à un groupe de pages. il faut dans ce cas utiliser deux commandes index, une au début et une à la fin, selon la syntaxe suivante~:
+%%\begin{verbatim}
+%%\index{ecole@École|(} %pour le début
+%%\index{ecole@École|)} % pour la fin
+%%\end{verbatim}
+%%
+%%\subsection{Des index d'édition critique et des index multiples}
+%%Pour les index d'édition critique, Ledmac procure une commande \verb= \edindex{}=. Pour les index critiques multiples, il faut l'utiliser avec la classe \textit{memoir}.
+%%
+%%
+%%
+%%\section{\LaTeX{} pour une édition critique}
+%%
+%%L'édition critique a des besoins très particuliers, qu'il est difficile de contenter par l'utilisation d'un traitement de texte classique, qu'il s'agisse des notes de bas de page sur plusieurs étages, de la numérotation des lignes et des vers, des renvois aux numéros de ligne, des textes en parallèle, etc.
+%%
+%%Différents packages d'édition critique existent. Les plus aboutis sont assez vraisemblablement Ledmac, accompagné des deux sous-packages Ledpar (pour les textes en parallèle) et ledarab (qui nous intéresse moins~: éditions critiques en arabe).
+%%
+%%Il existe deux autres packages qui peuvent être intéressants, à savoir poemscol, dédié aux éditions de textes en vers, et MauroTeX, projet assez original (dont la documentation est uniquement en italien), qui permet d'exploiter plus facilement les données de son édition tout en ayant un bon rendu.
+%%
+%%Revenons à Ledmac~:
+%%
+%%\subsection{Ledmac~: principe de base}
+%%
+%%\subsubsection{Numérotation du texte}
+%%
+%%Dans Ledmac, le texte critique doit être contenu à l'intérieur de la zone de numérotation.\\
+%%La numérotation commence avec \verb=\beginnumbering= et s'arrête avec \verb=\endnumbering=\\
+%%À l'intérieur de cette zone de numérotation, sera numéroté tout le texte contenu dans les paragraphes, c'est-à-dire entre une balise \verb=\pstart= et \verb=\pend=.\\
+%%Si on veut éviter d'avoir à définir chaque paragraphe par ces balises, on peut utiliser \verb=\autopar= mais il faut alors placer le \verb=\beginnumbering= dans un \verb=\begingroup= (end, etc.).
+%%
+%% \begin{minipage}[h]{16.5cm}
+%% \beginnumbering
+%%\pstart
+%%Voici le paragraphe dont le texte est numéroté.
+%%\pend
+%% \endnumbering
+%% \end{minipage}
+%% 
+%% Si on veut qu'une partie ne soit pas numérotée : 1. le mettre en dehors d'un paragraphe~; 2. utiliser \verb=\skipnumbering=
+%%3. utiliser \verb=\pausenumbering= et \verb=\resumenumbering=. 
+%% 
+%%
+%%%Pour du texte en vers, on peut utiliser l'environnement \textit{stanza}
+%%
+%%
+%%
+%%\subsubsection{L'apparat critique}
+%%On dispose avec Ledmac, par défaut, de 5 étages de notes de bas de page (et de 5 niveaux de notes de fin), mais on peut assez facilement en créer d'autres.
+%%
+%%Pour écrire une note critique avec Ledmac, le principe est simple~: on utilise la commande \verb=\edtext{}{}= qui se compose de deux parties. La première contient le mot sur lequel s'accroche la note (le lemme) qui apparaîtra à la fois dans le texte et dans la note~; la deuxième partie peut contenir un certain nombre de commandes. Principalement~:
+%%\begin{itemize}
+%%\item \verb= \Afootnote{}= et/ou \verb=\Bfootnote{}=, et/ou \verb=\Cfootnote{}= pour les notes des différents étages.
+%%\item éventuellement, la commande \verb=\lemma{}=, si on veut redéfinir le lemme qui apparaît en note.
+%%\end{itemize}
+%%\bigskip
+%%\bigskip
+%%
+%% \begin{minipage}[h]{16.5cm}
+%% \beginnumbering
+%%\pstart
+%%\edtext{Voici}{\Afootnote{Voilà \textit{A}}\lemma{V.}\Bfootnote{Ci-gît \textit{BCR}}} le paragraphe dont le texte est \edtext{numéroté}{\Afootnote{munéroté \textit{A}}}.
+%%\pend
+%% \endnumbering
+%% \end{minipage}
+%%
+%%\subsection{Ledmac~: configurer Ledmac}
+%%
+%%Redéfinir le format des notes~:\\
+%%\verb=\footparagraph{A}=\\
+%%On a aussi~:\\
+%%\begin{verbatim}
+%%\footnormal
+%%\foottwocol
+%%\footthreecol
+%%\end{verbatim}
+%%
+%%Redéfinir la numérotation~:
+%%
+%%
+%%
+%%\subsection{Du texte en parallèle~: Ledpar}
+%%
+%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\clearpage
+
+\listoffigures
+\listoftables
+
+\tableofcontents
+
+\end{document}

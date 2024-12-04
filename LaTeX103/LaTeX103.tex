@@ -1,0 +1,683 @@
+\documentclass[a4paper,twoside,french,12pt]{book}
+
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[pdftex]{graphicx}
+\usepackage{lmodern}
+\usepackage{lscape}
+
+
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{setspace}
+\setlength{\parindent}{1.cm}
+\onehalfspacing
+%\frenchspacing%plus nécessaire à présent ?
+
+%%%Pour les tableaux
+%\usepackage{slashbox}
+\usepackage{multirow}
+
+
+%%% Les index
+%\usepackage{makeidx}
+%\usepackage{multind}
+\usepackage{index}
+%\makeindex
+%\makeindex{edition}
+%\makeindex{texte}
+\newindex{etude}{adx}{and}{Index de l'étude}
+\newindex{edition}{bdx}{bnd}{Index de l'édition}
+
+
+
+%%%Édition critique
+\usepackage{eledmac}
+\usepackage{eledpar}
+
+\footparagraph{A}
+
+
+
+
+
+
+
+\renewcommand*{\Rlineflag}{D}
+
+\hyphenation{}
+
+
+\usepackage[babel]{csquotes}
+
+\usepackage[backend=biber, sorting=nyt, style=ENC]{biblatex}
+\addbibresource{Biblio/demo.bib}
+%\nocite{lachin_i_2008}
+
+\defbibnote{Introbiblio}{Cette bibliographie contient les references employees au sein de blablabla}
+
+\DeclareBibliographyCategory{test}
+\addtocategory{test}{ailes_fierabras_2002}
+
+\usepackage{enumerate,lettrine}
+
+\title{\LaTeX\ 103: éditions critiques, index et glossaires, bibliographie}
+\date{7 mars 2014 (1\iere{}version, 7 avril 2011)}
+\author{Jean-Baptiste Camps\\ (1\iere{} version avec Vincent Jolivet)}
+
+%%Création d'une nouvelle commande
+\newcommand{\nomPropre}[1]{\textsc{#1}}
+%\renewcommand{\pagelinesep}{}
+
+\begin{document}
+
+\maketitle
+
+\chapter{Renvois et références}
+
+%\begin{abstract}
+L'objectif de la séance: on commencera par les renvois et index. 
+
+Dans un deuxième temps, nous nous pencherons sur l'utilisation de \LaTeX{} pour les éditions critiques, avant d'aborder la bibliographie et les bonnes pratiques.
+%\end{abstract}
+
+
+
+\section{Renvois, index \& glossaires}
+
+\subsection{Les renvois}
+
+\subsubsection{Méthode standard}
+\begin{verbatim}
+\label{}
+\ref{}
+\pageref{}
+\end{verbatim}
+
+%\subsubsection{Package varioref} %Pas top en fait
+
+%\verb=\usepackage[french]{varioref}=
+
+%\verb=\vref{} et \vpageref{}=
+
+
+\subsection{Un index unique avec Makeindex}
+
+\subsubsection{Principe de base}
+
+1. Indiquer à \LaTeX{} qu'on veut faire un index: 
+\begin{verbatim}
+\usepackage{makeidx}
+\makeindex
+\end{verbatim}
+
+2. indexer un mot:\\
+Il faut ajouter, à la suite du mot, la commande \verb=\index{}=.\\
+Le mot sera placé automatiquement dans l'index. L'avantage de cette méthode, c'est qu'on peut inclure dans la même entrée, par ex. Louis XIV, les renvois à Il, le roi, Louis le Grand, etc.
+
+3. signaler qu'on veut afficher l'index:\\
+\verb= \printindex= là où on veut qu'il apparaisse.
+
+3. Compiler: 
+\begin{itemize}
+\item compiler d'abord normalement plusieurs fois
+\item compiler avec Makeindex. Le logiciel stocke les entrées d'index dans un fichier .idx que l'on peut si l'on veut ouvrir et regarder.
+\item compiler une dernière fois normalement
+\end{itemize}
+
+Premier problème: \\
+L'ordre alphabétique: essayer avec EAD, école, Éducation.\\
+Le merveilleux ordre alphabétique ASCII, qui distingue majuscules et minuscules, lettres accentuées ou non, etc.
+
+
+pour corriger ça, on va utiliser une commande permettant de définir à la fois l'endroit où l'entrée doit apparaître dans l'ordre alphabétique:\\
+\verb=\index{ecole@École}=\\
+
+On peut également en profiter pour mettre en forme l'entrée d'index, qui se trouve à droite, par exemple, si l'on veut certaines entrées en italique, ou en gras:
+\begin{verbatim}
+\index{ecole@\textbf{École}}
+\end{verbatim}
+
+
+Quand on fait son index avec \LaTeX\ il faut faire particulièrement attention à bien écrire l'entrée toujours de la même façon, sinon, il crée deux entrées différentes.
+
+\subsubsection{Un index un peu plus évolué}
+
+\paragraph{Une sous entrée:} On peut aussi vouloir faire une sous-entrée. Pour ce faire, on emploie le point d'exclamation: \\
+\verb= \index{ecole@École!des chartes}=\\
+
+À noter que ces différentes syntaxes sont combinatoires, on peut faire un renvoi dans une sous-entrée, par exemple.
+
+On peut parfois aussi vouloir faire référence à un groupe de pages. il faut dans ce cas utiliser deux commandes index, une au début et une à la fin, selon la syntaxe suivante:
+\begin{verbatim}
+\index{ecole@École|(} %pour le début
+\index{ecole@École|)} % pour la fin
+\end{verbatim}
+
+
+\paragraph{Les renvois intérieurs:}
+On peut vouloir définir des renvois, des \og voir\fg, etc.
+
+Pour faire ceci, on emploie la syntaxe suivante:\\
+\verb= \index{chartes@Chartes, école des|see{École}}=\\
+Petite astuce, comme ces entrées renvoient à une autre sans citer de numéro de page, on peut écrire l'ensemble des renvois au même endroit, par exemple, juste avant le \verb=\printindex=.
+
+
+
+
+
+
+%\subsection{Des index multiples} % On garde ça pour plus tard.
+%Il faut utiliser le package \textit{Multind}. (\dots) à voir la prochaine fois.
+
+
+\section{\LaTeX{} pour une édition critique}
+
+L'édition critique a des besoins très particuliers, qu'il est difficile de contenter par l'utilisation d'un traitement de texte classique, qu'il s'agisse des notes de bas de page sur plusieurs étages, de la numérotation des lignes et des vers, des renvois aux numéros de ligne, des textes en parallèle, etc.
+
+Différents packages d'édition critique existent. Les plus aboutis sont assez vraisemblablement (e)ledmac, accompagné des deux sous-packages (e)ledpar (pour les textes en parallèle) et ledarab (qui nous intéresse moins: éditions critiques en arabe).
+
+Il existe deux autres packages qui peuvent être intéressants, à savoir poemscol, dédié aux éditions de textes en vers, et MauroTeX, projet assez original (dont la documentation est uniquement en italien), qui permet d'exploiter plus facilement les données de son édition tout en ayant un bon rendu.
+
+Revenons à Ledmac.
+
+\subsection{\textit{eledmac}: principe de base}
+
+\subsubsection{Numérotation du texte}
+
+%\index{Test}
+\index[etude]{Test}
+
+
+Dans Ledmac, le texte critique doit être contenu à l'intérieur de la zone de numérotation.\\
+La numérotation commence avec \verb=\beginnumbering= et s'arrête avec \verb=\endnumbering=\\
+À l'intérieur de cette zone de numérotation, sera numéroté tout le texte contenu dans les paragraphes, c'est-à-dire entre une balise \verb=\pstart= et \verb=\pend=.\\
+{ \footnotesize
+Si on veut éviter d'avoir à définir chaque paragraphe par ces balises, on peut utiliser \verb=\autopar= mais il faut alors placer le \verb=\beginnumbering= dans un \verb=\begingroup= (end, etc.).}
+
+ \begin{minipage}[h]{16.5cm}
+ \beginnumbering
+\pstart
+Voici le paragraphe dont le texte est numéroté.
+\pend
+ \endnumbering
+ \end{minipage}
+ 
+ \begin{verbatim}
+  \begin{minipage}[h]{16.5cm}
+ \beginnumbering
+\pstart
+Voici le paragraphe dont le texte est numéroté.
+\pend
+ \endnumbering
+ \end{minipage}
+ \end{verbatim}
+  
+ Si on veut qu'une partie ne soit pas numérotée : 1. le mettre en dehors d'un paragraphe; 2. utiliser \verb=\skipnumbering=
+%3. utiliser \verb=\pausenumbering= et \verb=\resumenumbering=. 
+
+À noter que les paragraphes sont automatiquement indentés, comme dans le corps du texte. Si jamais on veut supprimer l'indentation, pour une raison ou pour une autre, il faut placer la commande \verb=\noindent{}= au début du paragraphe.
+
+ \bigskip
+ \bigskip
+ \firstlinenum{4}
+\linenumincrement{4}
+\linenummargin{left}
+
+ \beginnumbering
+\pstart
+Ki volt oïr chançun de beau semblant\\
+dunt bien sunt fait les vers par consonant,\\
+ore laist la noise, si se treie avant.\\
+Dirun la flur de la geste vallant\\
+del fiz Pepin le noble combatant,\\
+des duze pers qui s'entr'amerent tant\\
+k'unc ne severerent tresk'a un jor pesant\\
+ke Guenes les traï od la salvage gent.\\
+%Un jor mururent vint millier e set cent\\
+%de cel barnage, dunt Charles ot doel grant.\\
+%Cil jugleor n'en dient tant ne quant :\\
+%tuit l'ont leissé k'il ne sevent nïent\\
+%li plusur danger e de l'autri chantant\\
+%les paroles menues qu'il vont controvant,\\
+%mes il ne sevent mie le grant desturbement\\
+%k'avint a Charlemaine si subitement.
+%\pend
+%{\Large{\textbf{[2]}}}
+%\pstart
+%Seingnurs ço fu le jor dunt li Innocent sunt.\\
+%A Paris est en France Charles de Clermunt\\
+%u tint sa curt plenere, li duze per i sunt.\\
+%Mult par est la joie grant que li baruns i funt.\\
+%Un plai ont establi k'en Espaine irunt\\
+%sur le rei Marsilie, le serement i funt.\\
+%Ço ert après averil, quant herbe fresche averunt.\\
+%Einz que finent lur parole, teles noveles orunt\\
+%dunt vint mil chevaler de noz Françeis murunt,\\
+%si Dampnedeu n'en pense qui sustent tut le mund.
+\pend
+
+ \endnumbering
+
+%Pour du texte en vers, on peut utiliser l'environnement \textit{stanza}
+
+
+\subsubsection{L'apparat critique}
+On dispose avec Ledmac, par défaut, de jusqu'à 5 étages de notes de bas de page (et de 5 niveaux de notes de fin), mais on peut assez facilement en créer d'autres.
+
+Pour écrire une note critique avec eledmac, le principe est simple: on utilise la commande \verb=\edtext{}{}= qui se compose de deux parties. La première contient le mot sur lequel s'accroche la note (le lemme) qui apparaîtra à la fois dans le texte et dans la note; la deuxième partie peut contenir un certain nombre de commandes, liées à l'apparat critique. \textbf{Une version simple donnera}:\\
+Ce \verb=\edtext{mot}{\Afootnote{terme \textit{B}}}= est dans le texte et le lemme de la note.
+\bigskip
+La commande \verb=\Afootnote= signale une note du premier étage, pour le second on emploiera\verb=\Bfootnote{}=, et/ou \verb=\Cfootnote{}=, etc. pour les notes des différents étages. Si l'on veut redéfinir le lemme, on utilisera la commande \verb=\lemma{}=. Une version plus complexe donnera ainsi:\\
+\begin{verbatim}
+Ces
+\beginnumbering
+\pstart
+Ces \edtext{deux mots}{
+\Afootnote{trois m. \textit{ms.}}
+\Bfootnote{quatre mots \textit{BC}}
+\Cfootnote{Que d'hésitations sur le nombre de mots!}
+}
+sont dans le texte et le lemme
+de la note
+\pend
+\endnumbering
+sont dans le texte et le lemme de la note.
+\end{verbatim}%
+
+
+\beginnumbering
+\pstart
+Ces \edtext{deux mots}{
+\Afootnote{trois m. \textit{ms.}}
+\Bfootnote{quatre mots \textit{BC}}
+\Cfootnote{Que d'hésitations sur le nombre de mots!}
+}
+sont dans le texte et le lemme
+de la note
+\pend
+\endnumbering
+
+On peut aussi redéfinir le lemme avec \verb=\lemma=
+
+%\bigskip
+%\bigskip
+
+%\begin{verbatim}
+% \begin{minipage}[h]{16.5cm}
+% \beginnumbering
+%\pstart
+%\edtext{Voici}{\Afootnote{Voilà \textit{A}}\lemma{V.}\Bfootnote{Ci-gît \textit{BCR}}\Cfootnote{Snif ! \textit{K}}\Dfootnote{Dans ce passage d'une brutalité sans nom, l'auteur...}} le paragraphe dont le texte est \edtext{numéroté}{\Afootnote{munéroté \textit{A}}}.\\
+%Ces \edtext{deux mots}{\lemma{deux m.}\Afootnote{trois m. \textit{B}}\Bfootnote{quatre mots et demi \textit{BCK}}} sont dans le texte, mais le lemme ne reprend que l'initiale du second.
+%\pend
+% \endnumbering
+% \end{minipage}
+%\end{verbatim}
+%
+% \begin{minipage}[h]{16.5cm}
+% \beginnumbering
+%\pstart
+%\edtext{Voici}{\Afootnote{Voilà \textit{A}}\lemma{V.}\Bfootnote{Ci-gît \textit{BCR}}\Cfootnote{Snif ! \textit{K}}\Dfootnote{Dans ce passage d'une brutalité sans nom, l'auteur...}} le paragraphe dont le texte est \edtext{numéroté}{\Afootnote{munéroté \textit{A}}}.\\
+%Ces \edtext{deux mots}{\lemma{deux m.}\Afootnote{trois m. \textit{B}}\Bfootnote{quatre mots et demi \textit{BCK}}} sont dans le texte, mais le lemme ne reprend que l'initiale du second.
+%\pend
+% \endnumbering
+% \end{minipage}
+
+\subsection{(e)ledmac: configuration de base}
+
+
+Redéfinir le format des notes:\\
+\verb=\footparagraph{A}=\\
+On a aussi:\\
+\begin{verbatim}
+\footnormal
+\foottwocol
+\footthreecol
+\end{verbatim}
+
+Redéfinir la numérotation:\\
+On peut vouloir que la numérotation débute à 4 et aille de 4 en 4, comme c'est parfois l'usage plutôt que d'aller de 5 en 5. Pour ce faire, on dispose de plusieurs outils:
+\begin{verbatim}
+\firstlinenum permet de définir la première ligne numérotée
+\linenumincrement permet de définir la fréquence de l'apparition des numéros
+\end{verbatim}
+Pour une numérotation à partir de 1 et de 4 en 4, on écrira:
+\begin{verbatim}
+\firstlinenum{4}
+\linenumincrement{4}
+\end{verbatim}
+
+Si l'on veut changer l'emplacement des \nos, on utilisera \verb=\linenummargin{}= en précisant en argument l'emplacement souhaité, soit:
+\begin{itemize}
+\item \textit{left} ou \textit{right}, pour la marge de gauche ou de droite;
+\item \textit{inner} ou \textit{outer} pour la marge intérieure ou extérieure.
+\end{itemize}
+
+
+\subsection{Du texte en parallèle: \textit{(e)ledpar}}
+
+Pour mettre du texte en parallèle sur deux colonnes ou deux pages, on utilisera \textit{eledpar}, qui est un sous--package de Ledmac (il faut donc ajouter \verb=\usepackage{eledpar}= dans le préambule). Le principe tant pour les colonnes que pour le texte est le même, mais il y a quelques différences dans le traitement, donc on va les voir l'un après l'autre.
+
+\subsubsection{Des colonnes parallèles}
+
+Il faut utiliser un environnement \textit{pairs}, dans lequel on place deux environnements Leftside et Rightside (avec majuscule). Pour le reste, chaque environnement fonctionne comme avec Ledmac. Une fois qu'on a défini nos deux bouts de textes, divisés en paragraphe, il faut demander à \LaTeX\ de les imprimer (si on lui laisse des trop gros bouts de textes avant d'insérer cette commande, \LaTeX\ risque de manquer de mémoire), ce qu'on fait en utilisant la commande \verb=\Columns= :
+\begin{verbatim}
+
+\end{verbatim}
+
+\begin{pairs}
+\begin{Leftside}
+\firstlinenum{5}
+\linenumincrement{5}
+\beginnumbering
+\pstart \edtext{blablabla}{\Afootnote{blublublu \textit{C}}} \pend
+\pstart bliblibli \pend
+\pstart blublublu \pend
+\pstart blublublu \pend
+\endnumbering
+\end{Leftside}
+\begin{Rightside}
+\beginnumbering
+\pstart \edtext{blablabla}{\Afootnote{blobloblo \textit{V}}} \pend
+\pstart \edtext{bliblibli}{\Afootnote{blobloblo \textit{V}}} \pend
+\pstart blublublu \pend
+\pstart blobloblo  \pend
+\endnumbering
+\end{Rightside}
+\Columns
+%\begin{Leftside}
+%\resumenumbering
+%\pstart blablabla \pend
+%\pstart bliblibli \pend
+%\pstart blublublu \pend
+%\pstart blublublu \pend
+%\pstart blublublu \pend
+%\endnumbering
+%\end{Leftside}
+%\begin{Rightside}
+%\resumenumbering
+%\pstart blablabla \pend
+%\pstart bliblibli \pend
+%\pstart blublublu \pend
+%\pstart bli \pend
+%\pstart blublublu \pend
+%\endnumbering
+%\end{Rightside}
+%\Columns
+\end{pairs}
+
+\begin{verbatim}
+\begin{pairs}
+\begin{Leftside}
+\firstlinenum{5}
+\linenumincrement{5}
+\beginnumbering
+\pstart \edtext{blablabla}{\Afootnote{blublublu \textit{C}}} \pend
+\pstart bliblibli \pend
+\pstart blublublu \pend
+\pstart blublublu \pend
+\endnumbering
+\end{Leftside}
+\begin{Rightside}
+\beginnumbering
+\pstart \edtext{blablabla}{\Afootnote{blobloblo \textit{V}}} \pend
+\pstart \edtext{bliblibli}{\Afootnote{blobloblo \textit{V}}} \pend
+\pstart blublublu \pend
+\pstart blobloblo  \pend
+\endnumbering
+\end{Rightside}
+\Columns
+\end{pairs}
+\end{verbatim}
+
+
+
+Un des grands atouts de \textit{Ledpar}, est qu'il met automatiquement les paragraphes qui se correspondent en vis--à--vis. On peut s'en rendre compte en vidant l'un des paragraphes. Le grand désavantage, en revanche, est que dans le cas de paragraphes, il réunit les apparats, sans les distinguer, en bas de la page... Si on veut deux apparats distincts, il faut mieux recourir à des pages en vis--à--vis.
+
+Autre remarque, les numéros des colonnes de droite sont suivis d'un R, pour \textit{right}, ce qui n'est pas forcément idéal. Pour redéfinir ça (ou le supprimer carrément), il suffit d'insérer dans le préambule:
+\begin{verbatim}
+\renewcommand*{\Rlineflag}{D}
+\end{verbatim}
+
+
+
+
+\subsubsection{Des pages en parallèle}
+La syntaxe est la même, excepté qu'il faut utiliser un environnement \textit{pages} et la commande (pour imprimer) \verb=\Pages=
+
+\begin{pages}
+\begin{Leftside}
+\firstlinenum{5}
+\linenumincrement{5}
+\beginnumbering
+\pstart \edtext{blablabla}{\Afootnote{blublublu \textit{C}}} \pend
+\pstart bliblibli \pend
+\pstart blublublu \pend
+\pstart blublublu \pend
+\pstart blublublu \pend
+\endnumbering
+\end{Leftside}
+\begin{Rightside}
+\beginnumbering
+\pstart \edtext{blablabla}{\Afootnote{blublublu \textit{V}}} \pend
+\pstart \edtext{bliblibli}{\Afootnote{blobloblo \textit{V}}} \pend
+\pstart blublublu \pend
+\pstart  \pend
+\pstart blublublu%\edindex[edition]{blublublu} 
+\pend
+\endnumbering
+\end{Rightside}
+\Pages
+\end{pages}
+
+
+
+\subsection{Les index de l'édition}
+
+Utiliser la commande \verb=\edindex{}= qui fonctionne comme la commande index, mais donne en outre le numéro de ligne.\\
+%Pour redéfinir le séparateur, il faut insérer dans le préambule \verb=\renewcommand{\pagelinesep}{, l.~}=
+
+Pour avoir plusieurs index d'édition, il faut utiliser la classe \textit{memoir} et les possibilités qu'elle procure. Se rapporter à la documentation en ligne.
+
+
+\section{La bibliographie}
+
+La mise en forme de la bibliographie peut--être un des aspects les plus fastidieux de la mise en forme d'un travail académique en général. Elle répond à des normes strictes. Il y a un moyen de se simplifier la vie, qui consiste à utiliser un logiciel de gestion bibliographique, comme Zotero, et un module permettant d'exploiter sa base de données bibliographique directement dans son traitement de texte, avec un style permettant la mise en forme automatique. C'est une solution de ce type que je vais présenter: BibLaTeX.
+
+
+
+
+\subsection{Principe général}
+
+Un fichier .bib contenant les références (et qu'on a pu importer de Zotero, par exemple) + fichier de normes bibliographiques (ENC.cbx et ENC.bbx) + des commandes de citation.
+
+
+Le préambule:
+\begin{verbatim}
+\usepackage[babel]{csquotes}
+\usepackage[backend=biber, sorting=nyt, style=ENC]{biblatex}
+\addbibresource{demo.bib}
+\end{verbatim}
+
+
+\subsection{Configurer la compilation}
+
+Ajouter |biber \%|
+
+\subsection{Le fichier .bib et son encodage}
+
+Un example:
+\begin{verbatim}
+@article{ailes_fierabras_2002,
+	title = {{\em Fierabras} and the {\em Chanson de Roland}: an intertextual diptych},
+	volume = {28},
+	issn = {0950-3129},
+	shorttitle = {{{Fierabras}} and the {{Chanson} de Roland}},
+	journal = {Reading Medieval Studies},
+	author = {Marianne J. Ailes},
+	gender = {sf},
+	year = {2002},
+	pages = {3--22}
+},
+\end{verbatim}
+
+
+
+\subsection{Les commandes de citation}
+
+Pour citer une référence, on emploie la commande \verb=\cite{}=, à l'intérieur d'une note de bas de page.
+Un argument obligatoire, qui est le code de la référence, tel qu'il figure au tout début de la référence encodée dans le fichier .bib. Ce qui donne\footnote{\cite{ailes_fierabras_2002}}.
+
+\begin{verbatim}
+Ce qui donne\footnote{\cite{ailes_fierabras_2002}}.
+\end{verbatim}
+
+Si l'on veut rajouter du texte à la fin de la référence, (typiquement un \no de page), on met une option à la commande:
+Ce qui donne\footnote{\cite[p.\,42]{ailes_fierabras_2002}}.
+\begin{verbatim}
+Ce qui donne\footnote{\cite[p.\,42]{ailes_fierabras_2002}}.
+\end{verbatim}
+
+Enfin, si l'on veut mettre du texte avant la référence (par exemple cf.), on met une autre option:
+Ce qui donne\footnote{\cite[Cf.][p.\,42]{ailes_anglo-norman_2008}}.
+
+\begin{verbatim}
+Ce qui donne\footnote{\cite[Cf.][p.\,42]{ailes_anglo-norman_2008}}.
+\end{verbatim}
+
+%On remarque qu'il n'y a pas de majuscule. Si on en veut une, on utilisera la commande \verb=\Cite= avec une majuscule. 
+À noter que si on veut seulement du texte avant, et pas de texte après, il faut mettre une seconde option vide (sinon, s'il n'y a qu'une option, c'est par défaut le texte qui se trouve à la fin). Pas de point (il faut l'ajouter manuellement).
+
+Bien souvent, on veut juste citer la référence, sans ajouter plus de texte dans la note, dans ce cas, il y a une commande plus pratique:
+\begin{verbatim}
+\verb=\footcite{}=.
+\end{verbatim}
+qui fonctionne comme les autres, mais met automatiquement la référence dans une note de bas de page, avec une majuscule au début et un point à la fin.
+
+Ce qui donne\footcite[Voir également][p.\,42]{guessard_otinel_1859}.
+\begin{verbatim}
+Ce qui donne\footcite[Voir également][p.\,42]{guessard_otinel_1859}.
+\end{verbatim}
+
+%\footcite{ailes_fierabras_2002} \footcite{guessard_otinel_1859} \footcite{ailes_anglo-norman_2008} \footcite{lachin_i_2008} 
+
+\subsection{La bibliographie}
+
+Pour afficher la bibliographie, on n'a plus qu'a ajouter, à l'endroit nécessaire, \verb=\printbibliography=.
+Cette commande va afficher automatiquement la liste, au bon format, de tous les ouvrages cités en note.
+
+Si l'on veut que des ouvrages qui figurent dans le fichier .bib, mais ne sont pas cités en note, figurent dans la bibliographie (ce qui peut être contestable), il faut ajouter, dans le préambule:
+\begin{verbatim}
+\nocite{clé}
+\end{verbatim}
+Si l'on veut que tous les ouvrages du fichier .bib apparaissent dans la bibliographie, qu'ils soient cités ou non, on ajoute:
+\begin{verbatim}
+\nocite{*}
+\end{verbatim}
+
+On peut agir sur la configuration de la bibliographie. Tout d'abord, on peut en changer le titre, en modifiant la commande \verb=\printbibliography= et en ajoutant une option \textit{title}.
+\begin{verbatim}
+\printbibliography[title=Ouvrages cités en note]
+\end{verbatim}
+On peut également rajouter facilement un texte introductif, en le définissant puis l'insérant avec l'option \textit{prenote}:
+\begin{verbatim}
+Dans le préambule :
+\defbibnote{Introbiblio}
+{Cette bibliographie contient les references employees au sein de blablabla}
+Puis :
+\printbibliography
+[title=Ouvrages cités en note, \\
+prenote=Introbiblio]
+\end{verbatim}
+
+On peut également définir plusieurs bibliographies, en utilisant plusieurs commandes printbibliography% ou une bibliographie divisée en plusieurs sous entrées.
+
+Pour faire plusieurs bibliographies, il faut définir des catégories dans le préambule, ainsi que les documents qui en font partie:
+\begin{verbatim}
+\DeclareBibliographyCategory{test}
+\addtocategory{test}{ailes_fierabras_2002}
+\end{verbatim}
+Puis, passer l'option \textit{category} (ou \textit{notcategory}) à la commande printbibliography:
+\begin{verbatim}
+\printbibliography[notcategory=test]{}
+\end{verbatim}
+
+On peut également utiliser le type de documents avec l'option \textit{type} ou \textit{nottype} (type=article, par exemple).
+
+\printbibliography[title=Ouvrages cités en note,prenote=Introbiblio]
+
+\section{Les bonnes pratiques}
+
+\subsection{Utiliser un fichier maître et des sous--fichiers}
+
+\input{parties/Partie1}
+
+\begin{verbatim}
+\input{parties/Partie1}
+\end{verbatim}
+
+\subsection{Organiser ses dossiers}
+
+[À faire]
+
+\subsection{Trouver de la documentation}
+
+\subsubsection{Documentation officielle}
+La documentation des packages sur le CTAN (\textit{Comprehensive TeX Archive Network}).
+
+\subsubsection{Tutoriels}
+
+\subsubsection{Sites d'entraide}
+
+Les tutos ENC
+
+TeX, LaTeX, stackexchange
+
+\section{Utilisation avancée}
+\emph{À faire; embryon d'un cours 4}.
+
+\subsection{Créer ses commandes et macros}
+
+Je peux, dans mon préambule, créer simplement de nouvelles commandes,
+
+\begin{verbatim}
+\newcommand{•}{•}
+\newenvironment{•}{•}{•}
+\end{verbatim}
+
+ ou redéfinir des commandes existantes
+ 
+ \begin{verbatim}
+\renewcommand{•}{•}
+\renewenvironment{•}{•}{•}
+\end{verbatim}
+ 
+Cela peut éventuellement servir à différencier plus encore sémantisme et mise en page. Par exemple je peux définir: \verb=\newcommand{\nomPropre}[1]{\textsc{#1}} =
+
+Ainsi, \verb=\nomPropre{Dupont}= donnera \nomPropre{Dupont}. 
+
+Si je change d'avis, je peux ensuite modifier la définition de ma commande dans le préambule, pour écrire cette fois-ci
+
+ \verb=\newcommand{\nomPropre}[1]{\textbf{#1}} =
+ 
+  et \verb=\nomPropre{Dupont}= donnera \textbf{Dupont}. %ici, on est contraint de tricher un peu
+
+%\section{Quelques astuces}
+
+%Faire figurer les index, la bibliographie, les listes des figures, etc. dans la table des matières:
+%\begin{verbatim}
+%\usepackage{tocbibind}
+%\end{verbatim}
+
+
+\cleardoublepage
+
+\printindex[etude]
+
+\printindex[edition]
+
+\clearpage
+
+\tableofcontents
+
+\end{document}
